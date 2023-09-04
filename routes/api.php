@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
         Route::apiResource('course' , CourseController::class);
         Route::apiResource('child-course' , ChildCourseController::class)->only('store','destroy');
 
+        Route::get('/statistics' , [AccountsController::class , 'stats']);
     });
 
 

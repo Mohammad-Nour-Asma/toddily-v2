@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
          \App\Models\User::create([
-             'name' => 'Admin',
+             'first_name' => 'Admin',
+             'last_name' => 'Admin',
              'username' => 'admin',
              'role_id'=> 1,
              'phone' => '0954942265',
