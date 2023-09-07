@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Http\Resources\UserResource;
 use App\Models\AgeSection;
 use App\Models\Child;
@@ -16,6 +17,7 @@ class AuthController extends Controller
     //
     public function login(Request $request)
     {
+
         $fields = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
@@ -36,6 +38,7 @@ class AuthController extends Controller
                 'children'=>Child::where('isExtra' , 1)->get(),
                 'token'=>$token,
             ];
+
             return response($response , 201);
 
         }

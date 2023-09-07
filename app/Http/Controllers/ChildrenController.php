@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Child;
+use App\Models\ClassRoom;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -144,5 +146,31 @@ class ChildrenController extends Controller
         }
 
         return response([$child->status]);
+    }
+
+    public  function getChildByRole(string $id){
+        $user = \App\Models\User::find($id);
+        if(!$user){
+            return response(['message'=>'not found',404]);
+        }
+
+        return response(['children'=>$user->children]);
+    }
+
+    public  function getStatusByChildId(string $id){
+        $child=  Child::find($id);
+        if(!$child)
+        {
+            return response(['message'=>'child not found'],404 );
+
+        }
+
+        $classRoom = ClassRoom::find($child->classRoom_id);
+
+
+        return response([
+            'status'=>$classRoom->ageSection->status,
+            'course'=>$child->course,
+        ]);
     }
 }

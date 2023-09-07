@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
         Route::apiResource('substatus' , SubstatusController::class)->except(['show','index']);
         Route::apiResource('age-section' , AgeSectionController::class)->except(['show']);
 
-        Route::apiResource('classroom' , ClassRoomController::class)->except(['show']);
+        Route::apiResource('classroom' , ClassRoomController::class)->except(['show' ,'index']);
 
         Route::apiResource('accounts' , AccountsController::class);
         Route::put('accounts/reset-password/{id}' , [AccountsController::class , 'resetPassword']);
@@ -106,10 +106,16 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
         Route::apiResource('child-image' , ChildImagesController::class)->only(['destroy']);
     });
 
-    Route::apiResource('classroom' , ClassRoomController::class)->only(['show']);
     Route::get('/get_child_reports/{id}' , [ReportsController::class , 'childReports']);
 
     Route::post('get-child-status-date/{id}' , [ChildrenStatusController::class , 'getStatusByDate']);
     Route::get('get-child-images/{id}' , [ChildImagesController::class , 'getChildImagesForParents']);
+    Route::get('get-teacher-child/{di}'  , [ChildrenController::class , 'getChildByRole']);
+    Route::get('get-teacher-classRoom/{di}'  , [ClassRoomController::class , 'getTeacherClassRoom']);
+
+    Route::get('get-status-by-child/{id}' , [ChildrenController::class , 'getStatusByChildId']);
+    Route::apiResource('classroom' , ClassRoomController::class)->only(['show','index']);
+
+
 
 });

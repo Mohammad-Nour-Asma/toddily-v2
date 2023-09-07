@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ClassRoom;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 use Symfony\Component\Console\Input\Input;
 
 class ClassRoomController extends Controller
@@ -30,7 +31,7 @@ class ClassRoomController extends Controller
         $fields =  $request->validate([
             'name' => 'required|string',
             'age_section_id'=> 'required|numeric',
-            'teacher_id'=> 'required|numeric'
+            'teacher_id'=> ['numeric','required' , Rule::exists('users' , 'id')]
 
         ]);
 
@@ -90,4 +91,6 @@ class ClassRoomController extends Controller
 
         return response(['message'=>'deleted Successfully'],200 );
     }
+
+
 }
