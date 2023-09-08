@@ -91,9 +91,13 @@ class AccountsController extends Controller
     public function show(string $id)
     {
         //
-        $user = User::with(['role' , 'parent'])->find($id);
+
+        $user = User::with(['role','children','classRoom'])->find($id);
+        if(!$user){
+            return response(['message'=>'not found'],404);
+        }
         return response([
-            "user" => UserResource::make($user),
+            "account" => UserResource::make($user),
         ], 200);
     }
 

@@ -138,20 +138,24 @@ class ChildrenController extends Controller
         return response(['child_status' =>$child->classRoom->ageSection->status]);
     }
 
-    public function getChildrenStatusDates(string $id){
-        $child = Child::find($id);
 
-        if (!$child) {
-            return response()->json(['message' => 'Image not found'], 404);
-        }
-
-        return response([$child->status]);
-    }
 
     public  function getChildByRole(string $id){
         $user = \App\Models\User::find($id);
+
         if(!$user){
             return response(['message'=>'not found',404]);
+        }
+
+        if($user->role->role_name == 'teacher' && $user->classRoom) {
+            $cheldren = $user->classRoom->children;
+
+//            $childrenWithClass = collect($cheldren)->map(function($item){
+//                return []
+//                });
+
+            return response(['children' => $cheldren]);
+
         }
 
         return response(['children'=>$user->children]);

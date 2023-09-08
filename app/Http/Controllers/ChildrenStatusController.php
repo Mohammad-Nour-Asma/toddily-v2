@@ -101,10 +101,6 @@ class ChildrenStatusController extends Controller
             ->where('child_id' , $id)->get();
 
 
-
-
-
-
          $courses = $child->course;
         $newrep = $courses->map(function ($item)use ($request){
           $status =   $item->status;
