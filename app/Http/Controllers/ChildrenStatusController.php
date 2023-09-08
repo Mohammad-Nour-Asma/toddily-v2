@@ -115,8 +115,20 @@ class ChildrenStatusController extends Controller
             return ['course'=>$item,'status'=>$filtered];
         });
 
+        $resource = $records->map(function ($item){
+            return [
+                'name'=>$item->status->name,
+                'substatus'=> $item->childSubstatus->map(function ($item){
+                    return[
+                        'name'=> $item->substatus->name,
+                        'image'=>$item->substatus->image,
+                        'description'=>$item->description,
+                    ];
+                })
+                ];
+        });
         return response([
-            'status' => $records,
+            'status' => $resource,
             'courses'=> $newrep
         ]);
     }

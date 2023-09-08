@@ -72,7 +72,7 @@ class AccountsController extends Controller
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'password' => $password,
+            'password' => "123456789",
             'username' => $username,
             'role_id' => $role_id,
             'phone' => $request->get('phone')
@@ -80,7 +80,7 @@ class AccountsController extends Controller
 
         return response([
             'user' => $user,
-            'password' => $password,
+            'password' => '123456789',
             'message' => 'account create successfully'
         ], 200);
     }

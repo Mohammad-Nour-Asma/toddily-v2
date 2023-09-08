@@ -146,6 +146,7 @@ class ChildrenController extends Controller
         if(!$user){
             return response(['message'=>'not found',404]);
         }
+        $children = [];
 
         if($user->role->role_name == 'teacher' && $user->classRoom) {
             $cheldren = $user->classRoom->children;
@@ -154,11 +155,25 @@ class ChildrenController extends Controller
 //                return []
 //                });
 
-            return response(['children' => $cheldren]);
 
+
+
+        }else{
+            $cheldren = $user->children;
         }
 
-        return response(['children'=>$user->children]);
+        $newChildren = $cheldren->map(function ($item){
+            return [
+                'id'=>$item->id,
+                'name'=>$item->name,
+                'image' => $item->image,
+                'isExtra'=>$item->isExtra,
+                'course'=>$item->course,
+                'className'=>ClassRoom::find($item->classRoom_id)->name,
+            ];
+        });
+
+        return response(['children'=>$newChildren]);
     }
 
     public  function getStatusByChildId(string $id){
