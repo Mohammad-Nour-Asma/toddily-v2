@@ -7,6 +7,7 @@ use App\Models\ChildCourseStatus;
 use App\Models\ChildStatus;
 use App\Models\ChildSubstatus;
 use App\Models\Status;
+use App\Models\Substatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -31,27 +32,28 @@ class ChildrenStatusController extends Controller
         //
         $rules = [
             'child_id' => 'required|numeric',
-            'status.*.status_id' => 'required|numeric',
-            'status.*.substatus.*.substatus_id' => 'required|numeric',
-            'status.*.substatus.*.description' => 'required|string',
-
+            'substatus.*.substatus_id' => 'required|numeric',
+            'substatus.*.description' => 'string|nullable',
         ];
         $request->validate($rules);
 
-        foreach ($request->get('status') as $status){
+        foreach ($request->get('substatus') as $substatus){
 
+            $status_id= Substatus::find($substatus['substatus_id'])->status->id;
 
             $childStatus =ChildStatus::create([
                 'child_id'=>$request->get('child_id'),
-                'status_id'=>$status['status_id'],
+                'status_id'=>$status_id,
             ]);
-            foreach ($status['substatus'] as $subStatus){
+
+
+
                 ChildSubstatus::create([
                     'childStatus_id'=>$childStatus->id,
-                    'subStatus_id' => $subStatus['substatus_id'],
-                    'description' => $subStatus['description']
+                    'subStatus_id' => $substatus['substatus_id'],
+                    'description' => $substatus['description']
                 ]);
-            }
+
         }
 
         return response(['message'=>'created successfully'],200);

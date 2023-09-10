@@ -9,4 +9,8 @@ class Substatus extends Model
 {
     protected $guarded = [];
     use HasFactory;
+
+    public function status (){
+        return $this->belongsTo(Status::class , 'status_id');
+    }
 }

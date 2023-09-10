@@ -96,6 +96,14 @@ class AccountsController extends Controller
         if(!$user){
             return response(['message'=>'not found'],404);
         }
+        $user?->classRoom?->children;
+
+        if($user->role->role_name == 'parent'){
+           foreach ($user?->children as $child){
+               $child?->classRoom;
+           }
+        }
+
         return response([
             "account" => UserResource::make($user),
         ], 200);

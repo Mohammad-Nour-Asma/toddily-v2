@@ -41,6 +41,15 @@ class StatusController extends Controller
     public function show(string $id)
     {
         //
+        $status = Status::find($id);
+        if(!$status)
+        {
+            return response(['message'=>'Status not found'],404 );
+        }
+        $status->substatus;
+        return  response([
+            "status"=> $status,
+        ]);
     }
 
     /**

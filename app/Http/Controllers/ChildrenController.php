@@ -64,6 +64,14 @@ class ChildrenController extends Controller
     {
         //
 
+        $child = Child::find($id);
+
+
+        if(!$child){
+            return response(['message'=>'not Found'],400);
+        }
+
+
         $fields = $request->validate([
             'name'=>'string',
             'parent_id'=>'numeric',
@@ -72,12 +80,6 @@ class ChildrenController extends Controller
         ]);
 
 
-        $child = Child::find($id);
-
-
-        if(!$child){
-            return response(['message'=>'not Found'],400);
-        }
 
 
 
