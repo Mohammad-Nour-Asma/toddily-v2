@@ -11,17 +11,25 @@ class ChildCourseController extends Controller
     //
     public function store(Request $request){
         $fields =  $request->validate([
-            'child_id'=> 'required|numeric',
+            'child_ids'=> 'required',
             'course_id'=> 'required|numeric',
         ]);
 
+         $childIDS = json_decode($request->child_ids);
+        foreach ($childIDS as $id){
+            $course = ChildCourse::create(
+                [
+                    'child_id'=>$id,
+                    'course_id'=>$request->course_id
+                    ]
 
-        $course = ChildCourse::create(
-            $fields
-        );
+            );
+        }
 
 
-        return response(['course' =>$course ,'message' => 'created successfully'], 200);
+
+
+        return response(['message' => 'created successfully'], 200);
     }
     public function destroy(string $id)
     {
