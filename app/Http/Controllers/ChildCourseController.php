@@ -15,15 +15,22 @@ class ChildCourseController extends Controller
             'course_id'=> 'required|numeric',
         ]);
 
+
+
+
          $childIDS = json_decode($request->child_ids);
         foreach ($childIDS as $id){
-            $course = ChildCourse::create(
-                [
-                    'child_id'=>$id,
-                    'course_id'=>$request->course_id
+            $childCourse = ChildCourse::where('child_id', $id)
+                ->where('course_id', $request->course_id)
+                ->first();
+            if(!$childCourse) {
+                $course = ChildCourse::create(
+                    [
+                        'child_id' => $id,
+                        'course_id' => $request->course_id
                     ]
-
-            );
+                );
+            }
         }
 
 

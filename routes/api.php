@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
 
     Route::get('get-status-by-child/{id}' , [ChildrenController::class , 'getStatusByChildId']);
     Route::apiResource('classroom' , ClassRoomController::class)->only(['show','index']);
-
+    Route::get('extra-children', [ChildrenController::class , 'getExtrasChildren']);
 
 
 });

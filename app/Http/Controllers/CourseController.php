@@ -105,11 +105,28 @@ class CourseController extends Controller
     public function show(string $id)
     {
         //
-        $course = Course::with('children')->find($id);
+        $course = Course::find($id);
         if(!$course){
             return response(['message'=>'not Found'],400);
         }
-        return response(['course'=>$course],200);
+
+        $children = $course->children->map(function ($item){
+            return [
+                'id'=> $item->child->id,
+                'name'=>$item->child->name,
+                'isExtra'=>$item->child->isExtra,
+                'image'=>$item->child->image,
+            ];
+        });
+
+            $courseInfo = [
+                'id'=>$course->id,
+                'name'=>$course->name,
+                'image'=>$course->image,
+                'children'=>$children
+            ];
+
+        return response(['course'=>$courseInfo ],200);
     }
 
 }

@@ -26,22 +26,24 @@ class ChildImagesController extends Controller
 
         $fields = $request->validate([
             'child_id'=>'numeric|required',
-            'image' => 'image',
+            'images.*' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
         ]);
+        $images =($request->file('images'));
 
-        if($request->hasFile('image')){
-            $image = $request->file('image');
+        foreach ($images as $item) {
+            $image =$item;
             $filename = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $filename);
-            $fields['image'] = '/images/'.$filename;
+            $src = '/images/'.$filename;
+            ChildImage::create(
+              ['teacher_checked'=>false , 'child_id'=>$fields['child_id'] , 'image'=>$src]
+            );
         }
 
-        $childImage = ChildImage::create(
-           array_merge($fields ,['teacher_checked'=>false])
-        );
 
-        return response(['childImage' => $childImage],200);
+
+        return response(['message' => 'created successfully'],200);
     }
 
     /**

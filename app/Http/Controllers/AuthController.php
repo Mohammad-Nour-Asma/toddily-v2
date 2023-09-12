@@ -32,57 +32,6 @@ class AuthController extends Controller
         }
         $token = $user->createToken('token')->plainTextToken;
 
-        if($user->role->role_name == 'extra' ) {
-            $response = [
-                'user' => new UserResource($user),
-                'children'=>Child::where('isExtra' , 1)->get(),
-                'token'=>$token,
-            ];
-
-            return response($response , 201);
-
-        }
-
-  if($user->role->role_name == 'doctor' || $user->role->role_name == 'social' ) {
-            $response = [
-                'user' => new UserResource($user),
-                'classes'=>ClassRoom::all(),
-                'token'=>$token,
-            ];
-            return response($response , 201);
-
-        }
-
-         if($user->role->role_name == 'parent') {
-            $response = [
-                'user' => new UserResource($user),
-                'children'=> $user->children,
-                'token'=>$token,
-            ];
-            return response($response , 201);
-
-        }
-
-            if($user->role->role_name == 'teacher' && $user->classRoom){
-           $cheldren = $user->classRoom->children;
-           $ageSection = AgeSection::find($user->classRoom->age_section_id);
-           $status = $ageSection->status;
-
-
-            foreach ($status as $s) {
-              $substatus =   $s->substatus;
-            }
-
-            $response = [
-                'user' => new UserResource($user),
-                'class'=>$user->classRoom,
-                'status'=>$status,
-                'token'=>$token,
-            ];
-            return response($response , 201);
-
-        }
-
         $response = [
            'user' => new UserResource($user),
             'token'=>$token,

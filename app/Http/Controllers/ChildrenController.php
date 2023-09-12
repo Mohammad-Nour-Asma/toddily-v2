@@ -194,4 +194,19 @@ class ChildrenController extends Controller
             'course'=>$child->course,
         ]);
     }
+
+    public  function  getExtrasChildren(){
+        $response = [
+            'children'=>Child::where('isExtra' , 1)->get(),
+        ];
+        $children = $response['children']->map(function ($item){
+            return [
+                'id'=> $item->id,
+                'name'=>$item->name,
+                'isExtra'=>$item->isExtra,
+                'image'=>$item->image,
+            ];
+        });
+        return  response(['children'=>$children]);
+    }
 }

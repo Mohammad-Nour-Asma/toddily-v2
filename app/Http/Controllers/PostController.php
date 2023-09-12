@@ -25,23 +25,25 @@ class PostController extends Controller
     {
         //
         $fields = $request->validate([
-            'image'=>'image|required',
+            'images.*' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
         ]);
+        $images =($request->file('images'));
 
-        if($request->hasFile('image')){
-            $image = $request->file('image');
+        foreach ($images as $item) {
+            $image = $item;
             $filename = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $filename);
-            $fields['image'] = '/images/'.$filename;
+            $src = '/images/'.$filename;
+            $post = Post::create(
+                [  'image_url'=> $src]
+            );
         }
 
-        $post = Post::create(
-         [  'image_url'=> $fields['image'],]
-        );
 
 
-        return response(['post' =>$post ,'message' => 'created successfully'], 200);
+
+        return response(['message' => 'created successfully'], 200);
     }
 
     /**
@@ -59,12 +61,6 @@ class PostController extends Controller
     {
         //
 
-
-        $fields = $request->validate([
-            'image'=>'image|required',
-        ]);
-
-
         $post = Post::find($id);
 
 
@@ -72,7 +68,9 @@ class PostController extends Controller
             return response(['message'=>'not Found'],400);
         }
 
-
+        $fields = $request->validate([
+            'image'=>'image|required',
+        ]);
 
         if($request->hasFile('image')){
             $image = $request->file('image');
