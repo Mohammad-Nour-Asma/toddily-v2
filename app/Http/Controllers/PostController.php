@@ -31,7 +31,7 @@ class PostController extends Controller
 
         foreach ($images as $item) {
             $image = $item;
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $filename);
             $src = '/images/'.$filename;

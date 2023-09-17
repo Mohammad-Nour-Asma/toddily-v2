@@ -32,7 +32,7 @@ class ChildImagesController extends Controller
 
         foreach ($images as $item) {
             $image =$item;
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $filename);
             $src = '/images/'.$filename;
@@ -87,10 +87,17 @@ class ChildImagesController extends Controller
 
     }
 
-    public function getChildImages(string $id){
+    public function getChildImages(string $id , Request $request){
         $child = Child::find($id);
         if(!$child){
             return response(['message'=>'not Found'],400);
+        }
+
+        if($request->user()->role->role_name == 'teacher'){
+            $checkedImages = $child->images;
+            $array = collect($checkedImages)->filter(function ($item){return $item['teacher_checked'] == '0';})->values();
+            return response(['images' => $array], 200);
+
         }
 
 

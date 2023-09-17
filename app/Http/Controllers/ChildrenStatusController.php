@@ -151,6 +151,9 @@ class ChildrenStatusController extends Controller
         });
 
         $uniqueDates = collect($data)->unique('date');
-        return response(['data'=>$uniqueDates]);
+        $DatesArray = $uniqueDates->map(function ($item){
+            return $item['date'];
+        });
+        return response(['data'=>$DatesArray]);
     }
 }
