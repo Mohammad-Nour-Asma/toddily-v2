@@ -103,14 +103,30 @@ class ChildrenStatusController extends Controller
             ->where('child_id' , $id)->get();
 
 
-         $courses = $child->course;
+         $courses = $child->course->map(function ($item){
+             return
+                 [
+                 'child_course_id'=>$item['course_id'],
+                 'course_name'=>$item->course->name,
+                 'status'=>$item->status->map(function ($status){
+                     return ['id'=>$status['id'],"description" => $status['description']];
+                 }),
+                 ];
+         });
+
         $newrep = $courses->map(function ($item)use ($request){
           $status =   $item->status;
             $filtered = $status->map(function ($item)use ($request) {
                 $date1 = Carbon::parse($item->created_at);
                 $formattedDate = $date1->format('Y-n-j');
                 if($formattedDate == $request->get('date')) {
-                    return $item;
+                    return  [
+                        'child_course_id'=>$item['course_id'],
+                        'course_name'=>$item->course->name,
+                        'status'=>$item->status->map(function ($status){
+                            return ['id'=>$status['id'],"description" => $status['description']];
+                        }),
+                    ];
                 }
             });
 
@@ -151,9 +167,7 @@ class ChildrenStatusController extends Controller
         });
 
         $uniqueDates = collect($data)->unique('date');
-        $DatesArray = $uniqueDates->map(function ($item){
-            return $item['date'];
-        });
-        return response(['data'=>$DatesArray]);
+
+        return response(['data'=>$uniqueDates->values()]);
     }
 }
