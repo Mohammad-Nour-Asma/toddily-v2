@@ -29,14 +29,15 @@ class ChildrenController extends Controller
         $fields = $request->validate([
             'name'=>'string|required',
             'parent_id'=>'numeric|required',
-            'image' => 'image|required',
+            'image' => 'image',
             'classRoom_id' => 'numeric|required',
             'isExtra' => 'boolean|required',
+            'sex' => 'required|in:male,female',
         ]);
 
         if($request->hasFile('image')){
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $filename);
             $fields['image'] = '/images/'.$filename;
@@ -78,6 +79,7 @@ class ChildrenController extends Controller
             'image' => 'image',
             'classRoom_id' => 'numeric',
             'isExtra' => 'boolean|required',
+            'sex' => 'required|in:male,female',
 
         ]);
 

@@ -145,13 +145,13 @@ class AccountsController extends Controller
     }
 
     public function resetPassword(Request $request , string $id){
-        $password = Str::random(8);
         $user = User::find($id);
         if(!$user)
         {
             return response(['message'=>'age section not found'],404 );
 
         }
+        $password = $user->first_name.rand(1000,9999);
 
         $user->update([
             'password'=>$password,

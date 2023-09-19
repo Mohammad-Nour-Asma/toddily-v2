@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
 
-            $table->string('image');
+            $table->string('image')->nullable();
+            $table->string('sex');
             $table->boolean('isExtra');
 
             $table->unsignedBigInteger('parent_id');
