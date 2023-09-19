@@ -76,7 +76,9 @@ class ChildrenController extends Controller
             'name'=>'string',
             'parent_id'=>'numeric',
             'image' => 'image',
-            'classRoom_id' => 'numeric'
+            'classRoom_id' => 'numeric',
+            'isExtra' => 'boolean|required',
+
         ]);
 
 

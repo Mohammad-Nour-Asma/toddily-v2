@@ -63,8 +63,8 @@ class AccountsController extends Controller
         $username .= '@'.'toddily'.DB::table('Users')->latest()->first()->id + 1; // Append a unique identifier
 
 
-        $password = Str::random(8);
-        $password = Str::lower($password);
+
+        $password = $request->first_name.rand(1000,9999)  ;
 
         $role_id = Role::where('role_name' ,$request->get('role_name'))->first()['id'];
 
@@ -72,7 +72,7 @@ class AccountsController extends Controller
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'password' => "123456789",
+            'password' => $password,
             'username' => $username,
             'role_id' => $role_id,
             'phone' => $request->get('phone')
@@ -80,7 +80,7 @@ class AccountsController extends Controller
 
         return response([
             'user' => $user,
-            'password' => '123456789',
+            'password' => $password,
             'message' => 'account create successfully'
         ], 200);
     }

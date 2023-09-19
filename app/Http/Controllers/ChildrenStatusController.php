@@ -166,7 +166,7 @@ class ChildrenStatusController extends Controller
            return ['date'=> $formattedDate];
         });
 
-        $uniqueDates = collect($data)->unique('date');
+        $uniqueDates = $data->unique('date');
 
         return response(['data'=>$uniqueDates->values()]);
     }

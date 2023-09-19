@@ -39,6 +39,7 @@ Route::post('/login' , [AuthController::class , 'login']);
 Route::apiResource('events' , EventController::class)->only(['index' , 'show']);
 Route::apiResource('post' , PostController::class)->only(['index']);
 Route::apiResource('question-answer' , QuestionAndAnswerController::class)->only(['index']);
+Route::get('/aboutImages', [\App\Http\Controllers\AboutImagesController::class , 'index']);
 
 // Protected Routes
 
@@ -79,6 +80,9 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
         Route::apiResource('child-course' , ChildCourseController::class)->only('store','destroy');
 
         Route::get('/statistics' , [AccountsController::class , 'stats']);
+
+        Route::post('/aboutImages', [\App\Http\Controllers\AboutImagesController::class , 'store']);
+        Route::delete('/aboutImages/{id}', [\App\Http\Controllers\AboutImagesController::class , 'destroy']);
     });
 
 

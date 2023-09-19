@@ -16,6 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->foreignId('teacher_id');
+
+
+
             $table->unsignedBigInteger('age_section_id');
             $table->foreign('age_section_id')->references('id')
                 ->on('age_sections')
