@@ -122,5 +122,6 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
     Route::apiResource('classroom' , ClassRoomController::class)->only(['show','index']);
     Route::get('extra-children', [ChildrenController::class , 'getExtrasChildren']);
 
+    Route::post('sendNotification', [\App\Http\Controllers\NotificationController::class, 'sendNotification']);
 
 });

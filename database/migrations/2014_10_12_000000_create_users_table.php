@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('device_token')->nullable();
             $table->foreignId('role_id');
             $table->rememberToken();
             $table->timestamps();

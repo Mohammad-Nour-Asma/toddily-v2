@@ -21,6 +21,7 @@ class AuthController extends Controller
         $fields = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
+            'device_token' => 'string',
         ]);
 
         $user = User::where('username', $fields['username'])->first();
@@ -31,7 +32,9 @@ class AuthController extends Controller
             ], 422);
         }
         $token = $user->createToken('token')->plainTextToken;
-
+        $user->update([
+            'device_token'=>$request->device_token
+        ]);
         $response = [
            'user' => new UserResource($user),
             'token'=>$token,
@@ -51,5 +54,8 @@ class AuthController extends Controller
         $request->user()->role->role_name;
         return response(['user'=>$request->user()]);
     }
+
+
+
 
 }
