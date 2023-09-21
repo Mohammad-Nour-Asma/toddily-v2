@@ -56,7 +56,7 @@ class ChildrenStatusController extends Controller
 
         }
 
-        NotificationController::sendStatusNotification($request->child_id );
+        NotificationController::sendStatusNotification($request->child_id);
 
         return response(['message'=>'created successfully'],200);
     }

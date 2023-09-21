@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutImagesController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\AdminAccounts;
 use App\Http\Controllers\AgeSectionController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventImagesController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\QuestionAndAnswerController;
 use App\Http\Controllers\ReportsController;
@@ -39,7 +41,8 @@ Route::post('/login' , [AuthController::class , 'login']);
 Route::apiResource('events' , EventController::class)->only(['index' , 'show']);
 Route::apiResource('post' , PostController::class)->only(['index']);
 Route::apiResource('question-answer' , QuestionAndAnswerController::class)->only(['index']);
-Route::get('/aboutImages', [\App\Http\Controllers\AboutImagesController::class , 'index']);
+Route::get('/aboutImages', [AboutImagesController::class , 'index']);
+Route::get('/notification', [NotificationController::class , 'index']);
 
 // Protected Routes
 
@@ -81,8 +84,10 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
 
         Route::get('/statistics' , [AccountsController::class , 'stats']);
 
-        Route::post('/aboutImages', [\App\Http\Controllers\AboutImagesController::class , 'store']);
-        Route::delete('/aboutImages/{id}', [\App\Http\Controllers\AboutImagesController::class , 'destroy']);
+        Route::post('/aboutImages', [AboutImagesController::class , 'store']);
+        Route::delete('/aboutImages/{id}', [AboutImagesController::class , 'destroy']);
+        Route::delete('/notification/{id}', [NotificationController::class , 'destroy']);
+
     });
 
 
@@ -122,6 +127,7 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
     Route::apiResource('classroom' , ClassRoomController::class)->only(['show','index']);
     Route::get('extra-children', [ChildrenController::class , 'getExtrasChildren']);
 
-    Route::post('sendNotification', [\App\Http\Controllers\NotificationController::class, 'sendNotification']);
+    Route::post('sendNotification', [NotificationController::class, 'sendNotification']);
+
 
 });

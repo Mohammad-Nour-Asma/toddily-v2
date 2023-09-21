@@ -43,15 +43,5 @@ class DatabaseSeeder extends Seeder
             'role_name'=>'extra',
         ]);
 
-
-        AgeSection::create([
-            'from'=> 4,
-            'to'=>6
-        ]);
-
-        AgeSection::create([
-            'from'=> 7,
-            'to'=>10
-        ]);
     }
 }
