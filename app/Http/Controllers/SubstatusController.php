@@ -78,7 +78,7 @@ class SubstatusController extends Controller
         }
 
         // Delete The old Image
-        $imagePath = public_path($substatus->image_cover);
+        $imagePath = public_path($substatus->image);
 
         if (file_exists($imagePath)) {
             unlink($imagePath);

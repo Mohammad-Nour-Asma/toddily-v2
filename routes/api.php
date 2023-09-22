@@ -54,9 +54,10 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
 
 
     Route::middleware(['admin'])->group(function () {
+        Route::post('/substatus/{id}' , [SubstatusController::class , 'update']);
 
         Route::apiResource('status' , StatusController::class);
-        Route::apiResource('substatus' , SubstatusController::class)->except(['show','index']);
+        Route::apiResource('substatus' , SubstatusController::class)->except(['show','index' , 'update']);
         Route::apiResource('age-section' , AgeSectionController::class)->except(['show']);
 
         Route::apiResource('classroom' , ClassRoomController::class)->except(['show' ,'index']);
