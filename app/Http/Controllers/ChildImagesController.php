@@ -125,6 +125,6 @@ class ChildImagesController extends Controller
         }
 
 
-        return response (['images'=>$child->images->where('teacher_checked' , '1')->get()],200);
+        return response (['images'=>$child->images->where('teacher_checked' , '1')->values()],200);
     }
 }
