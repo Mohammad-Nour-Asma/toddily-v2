@@ -23,7 +23,7 @@ class NotificationController extends Controller
 
 
 
-        $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+        $firebaseToken = User::whereNotNull('device_token')->where('role_id', 5)->pluck('device_token')->all();
 
 
         if(count($firebaseToken) == 0){
