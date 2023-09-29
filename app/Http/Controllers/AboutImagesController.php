@@ -31,7 +31,7 @@ class AboutImagesController extends Controller
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $filename);
             $src = '/images/'.$filename;
-            $post = AboutImages::create(
+            $AboutImages = AboutImages::create(
                 ['image_url'=> $src]
             );
         }

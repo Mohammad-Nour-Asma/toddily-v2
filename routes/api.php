@@ -78,7 +78,8 @@ Route::group(['middleware' => ['auth:sanctum']] , function (){
 
         //Q&A
         Route::apiResource('question-answer' , QuestionAndAnswerController::class)->except(['index' , 'show']);
-        Route::apiResource('children' , ChildrenController::class);
+        Route::apiResource('children' , ChildrenController::class)->except(['update']);
+        Route::post('children/{id}' , [ChildrenController::class , 'update']);
 
         Route::apiResource('course' , CourseController::class);
         Route::apiResource('child-course' , ChildCourseController::class)->only('store','destroy');

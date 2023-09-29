@@ -64,7 +64,7 @@ class AccountsController extends Controller
 
 
 
-        $password = $request->first_name.rand(1000,9999)  ;
+        $password = strtolower($request->first_name).rand(1000,9999);
 
         $role_id = Role::where('role_name' ,$request->get('role_name'))->first()['id'];
 
@@ -151,7 +151,7 @@ class AccountsController extends Controller
             return response(['message'=>'age section not found'],404 );
 
         }
-        $password = $user->first_name.rand(1000,9999);
+        $password = strtolower($user->first_name).rand(1000,9999);
 
         $user->update([
             'password'=>$password,

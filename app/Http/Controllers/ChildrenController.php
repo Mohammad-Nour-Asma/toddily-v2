@@ -78,8 +78,8 @@ class ChildrenController extends Controller
             'parent_id'=>'numeric',
             'image' => 'image',
             'classRoom_id' => 'numeric',
-            'isExtra' => 'boolean|required',
-            'sex' => 'required|in:male,female',
+            'isExtra' => 'boolean',
+            'sex' => 'in:male,female',
 
         ]);
 
@@ -93,14 +93,18 @@ class ChildrenController extends Controller
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $filename);
             $fields['image'] = '/images/'.$filename;
+
+            // Delete The old Image
+            if($child->image){
+                $imagePath = public_path($child->image);
+
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
         }
 
-        // Delete The old Image
-        $imagePath = public_path($child->image);
 
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
-        }
 
         $child->update($fields);
         return response([
@@ -175,6 +179,7 @@ class ChildrenController extends Controller
                 'image' => $item->image,
                 'isExtra'=>$item->isExtra,
                 'course'=>$item->course,
+                'gender' => $item->sex,
                 'className'=>ClassRoom::find($item->classRoom_id)->name,
             ];
         });
@@ -208,6 +213,7 @@ class ChildrenController extends Controller
                 'id'=> $item->id,
                 'name'=>$item->name,
                 'isExtra'=>$item->isExtra,
+                'gender' => $item->sex,
                 'image'=>$item->image,
             ];
         });

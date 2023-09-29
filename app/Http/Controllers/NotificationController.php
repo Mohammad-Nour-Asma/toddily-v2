@@ -73,7 +73,7 @@ class NotificationController extends Controller
 
          $child = Child::find($childId);
 
-        $currentDate = Carbon::today();
+        $currentDate = Carbon::now('Asia/Damascus');
         $readablDate =  $currentDate->format('Y-m-d H:i:s');
 
          $parent = User::find($child->parent_id);

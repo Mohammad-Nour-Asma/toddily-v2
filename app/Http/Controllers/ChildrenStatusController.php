@@ -138,6 +138,7 @@ class ChildrenStatusController extends Controller
         $resource = $records->map(function ($item){
             return [
                 'name'=>$item->status->name,
+                'status_id'=>$item->status->id,
                 'substatus'=> $item->childSubstatus->map(function ($item){
                     return[
                         'name'=> $item->substatus->name,
@@ -147,8 +148,23 @@ class ChildrenStatusController extends Controller
                 })
                 ];
         });
+
+        $grouped=  $resource->groupBy('status_id');
+
+        $last = $grouped->map(function ($item){
+           $subStatus = [];
+           foreach ($item as $status){
+               array_push($subStatus , $status['substatus'][0]);
+           }
+           return ['name' => Status::find($item)->first()->name ,'substatus'=>$subStatus];
+        });
+
+        $lastLast=  $last->values();
+
+
+
         return response([
-            'status' => $resource,
+            'status' => $lastLast,
             'courses'=> $newrep
         ]);
     }
